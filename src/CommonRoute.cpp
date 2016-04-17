@@ -50,6 +50,102 @@ First Island in DTD ie 'D' occurs alphabatically before 'H' and 'Z')
 
 
 char * find_common_route(char * hacklist, char *codelist, int *cost){
-	return NULL;
-}
+	if (hacklist == NULL || codelist == NULL)
+		return NULL;
+	else
+	{
+		int s = 0;
+		cost = &s;
+		int k = 0, max = 0, m = 0, f = 0, l = 0;
+		char *path = (char*)malloc(sizeof(char));
 
+		for (int i = 0; hacklist[i] != '\0'; i++)
+		{
+			k = 0;
+			m = 0;
+
+			for (int j = 0; codelist[j] != '\0'; j++)
+			{
+				k = 0;
+				int p = i;
+				if (hacklist[p] == codelist[j])
+				{
+					char *dummy = (char*)malloc(sizeof(char));
+					while ((hacklist[p] == codelist[j]) && (codelist[j] != '\0'&&hacklist[p] != '\0'))
+					{
+						dummy[k] = hacklist[p];
+						k++;
+						m = m + (hacklist[p] - 64);
+						p++;
+						j++;
+
+					}
+					if (codelist[j] == '\0')
+						break;
+
+
+					if (k > max){
+						max = k;
+						s = m;
+						f = 0;
+						for (int l = 0; l<max; l++){
+							path[f] = dummy[l];
+							f++;
+						}
+					}
+
+
+					else if (k == max)
+					{
+						if (s == 0)
+						{
+							s = m;
+						}
+						else if (m < s)
+						{
+							s = m;
+							f = 0;
+							for (int l = 0; l<max; l++){
+								path[f] = dummy[l];
+								f++;
+							}
+						}
+						else if (m == s)
+						{
+							if (path[0] > dummy[0])
+							{
+								f = 0;
+								for (int l = 0; l<max; l++){
+									path[f] = dummy[l];
+									f++;
+								}
+							}
+
+						}
+
+
+					}
+
+
+					delete dummy;
+				}
+				else
+				{
+					p++;
+				}
+
+
+			}
+
+
+
+
+
+
+
+		}
+
+		*cost = s;
+		return path;
+	}
+}
